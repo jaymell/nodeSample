@@ -1,0 +1,30 @@
+{
+  "name": "nodeSample",
+  "version": "0.0.0",
+  "description": "sample node repo for testing deployment",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaymell/nodeSample.git"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "me",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaymell/nodeSample/issues"
+  },
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "cookie-parser": "^1.4.0",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "jquery": "^2.1.4",
+    "mongodb": "^2.0.46",
+    "morgan": "^1.6.1"
+  }
+}
