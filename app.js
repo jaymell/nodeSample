@@ -32,6 +32,4 @@ exports.app = app;
 
 var PORT = 80;
 console.log('Starting app');
-app.listen(PORT, function() {
-	console.log('Listening on port ' + PORT);
-});
+app.listen(PORT);
