@@ -18,8 +18,16 @@ app.set('view engine', 'jade');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(bodyParser.text());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// this middleware will be executed for every request to the app
+ app.use(function (req, res, next) {
+   //console.log('req.body ', req.body);
+     next();
+ });
+
 app.use('/', routes);
 
 // Add static middleware

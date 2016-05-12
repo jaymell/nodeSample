@@ -17,10 +17,14 @@ router.get('/', function(req, res) {
 	    }
 	}
 
+	var remoteAddress = req.header('x-forwarded-for') || req.connection.remoteAddress;
+	var header = JSON.stringify(req.headers);
+
 	res.render('index', { 
 		title: 'Skel',
-		remoteAddress: req.connection.remoteAddress,
-		localAddress: addresses
+		remoteAddress: remoteAddress,
+		localAddress: addresses,
+		header: header
 	});
 });
 
