@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
+var config = require('./config');
 
 // Create our Express application
 var app = express();
@@ -38,6 +39,6 @@ app.use(express.static(staticFilePath, {maxAge: oneDay}));
 exports.staticFilePath = staticFilePath;
 exports.app = app;
 
-var PORT = 80;
+var PORT = config.port;
 console.log('Starting app');
 app.listen(PORT);

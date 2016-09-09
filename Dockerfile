@@ -9,6 +9,7 @@ WORKDIR /app
 RUN npm install
 
 ADD app.js /app/
+ADD config.js /app/
 COPY routes/ /app/routes/
 COPY views/ /app//views/
 
