@@ -1,8 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var os = require('os');
+var fs = require('fs');
 
-router.get('/', function(req, res) {
+function logHeader(header) {
+  fs.appendFile('/home/james/access.log', header, function(err) {
+    if (err ) console.log("error");
+  });
+}
+
+router.get('/*', function(req, res) {
 
 	// thanks to:
 	// http://stackoverflow.com/questions/10750303/how-can-i-get-the-local-ip-address-in-node-js
@@ -20,8 +27,11 @@ router.get('/', function(req, res) {
 	var remoteAddress = req.header('x-forwarded-for') || req.connection.remoteAddress;
 	var header = JSON.stringify(req.headers);
 
+	logHeader(header);
+
 	res.render('index', { 
 		title: 'Skel',
+        url: req.url,
 		remoteAddress: remoteAddress,
 		localAddress: addresses,
 		header: header
