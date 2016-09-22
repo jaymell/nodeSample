@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var config = require('./config');
+var db = require('./db');
 
 // Create our Express application
 var app = express();
@@ -40,5 +41,16 @@ exports.staticFilePath = staticFilePath;
 exports.app = app;
 
 var PORT = config.port;
+var URL = config.mongoUrl;
+
 console.log('Starting app');
+
+db.connect(URL, function(err) {
+    if(err) {
+        console.log('Unable to connect to Mongo.');
+        // process.exit(1);
+    } 
+});
+
+console.log('Listening on port ' + PORT);
 app.listen(PORT);

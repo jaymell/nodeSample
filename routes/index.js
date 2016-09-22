@@ -2,14 +2,38 @@ var express = require('express');
 var router = express.Router();
 var os = require('os');
 var fs = require('fs');
+var db = require('../db');
+var config = require('../config');
 
-function logHeader(header) {
-  fs.appendFile('/home/james/access.log', header, function(err) {
-    if (err ) console.log("error");
-  });
-}
+var insertDoc = function(doc) {
+   var con = db.get()
+   var col = config.collection;
+   if ( con ) {
+	   db.get().collection(col).insertOne(doc, function(err, result) {
+		 if ( err ) {
+			console.log("cannot write to db -- insertion error");
+			console.log(err);
+		 }
+		 console.log("Inserted a record");
+       });
+   }
+   else console.log("cannot write to db");
+};
+
+var logRequest = function(headers, connection, type) {
+  var d = new Date();
+  var logEntry = headers;
+  logEntry.xforwardedFor = headers['x-forwarded-for'];
+  logEntry.remoteAddress = connection.remoteAddress;
+  logEntry.date = d.toISOString();
+  logEntry.type = type;
+
+  var colName = config.collection;
+  insertDoc(logEntry);
+};
 
 router.get('/*', function(req, res) {
+
 
 	// thanks to:
 	// http://stackoverflow.com/questions/10750303/how-can-i-get-the-local-ip-address-in-node-js
@@ -24,10 +48,10 @@ router.get('/*', function(req, res) {
 	    }
 	}
 
-	var remoteAddress = req.header('x-forwarded-for') || req.connection.remoteAddress;
-	var header = JSON.stringify(req.headers);
+	logRequest(req.headers, req.connection, 'GET');
 
-	logHeader(header);
+	var header = JSON.stringify(req.headers);
+	var remoteAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
 	res.render('index', { 
 		title: 'Skel',
@@ -37,5 +61,22 @@ router.get('/*', function(req, res) {
 		header: header
 	});
 });
+
+router.post('/', function(req, res) {
+  logRequest(req.headers, req.connection, 'POST');  
+});
+
+router.put('/', function(req, res) {
+  logRequest(req.headers, req.connection, 'PUT'); 
+});
+
+router.head('/', function(req, res) {
+  logRequest(req.headers, req.connection, 'HEAD'); 
+});
+
+router.delete('/', function(req, res) {
+  logRequest(req.headers, req.connection, 'DELETE'); 
+});
+
 
 module.exports = router;
