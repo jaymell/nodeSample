@@ -20,14 +20,15 @@ var insertDoc = function(doc) {
    else console.log("cannot write to db");
 };
 
-var logRequest = function(headers, connection, type) {
+var logRequest = function(req, type) {
   var d = new Date();
-  var logEntry = headers;
-  logEntry.xforwardedFor = headers['x-forwarded-for'];
+  var logEntry = req.headers;
+  var connection = req.connection;
+  logEntry.xforwardedFor = req.headers['x-forwarded-for'];
   logEntry.remoteAddress = connection.remoteAddress;
   logEntry.date = d.toISOString();
   logEntry.type = type;
-
+  logEntry.url = req.url;
   var colName = config.collection;
   insertDoc(logEntry);
 };
@@ -52,7 +53,7 @@ router.get('/*', function(req, res) {
 	    }
 	}
 
-	logRequest(req.headers, req.connection, 'GET');
+	logRequest(req, 'GET');
 
 	var header = JSON.stringify(req.headers);
 	var remoteAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -67,7 +68,7 @@ router.get('/*', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-  logRequest(req.headers, req.connection, 'POST');  
+  logRequest(req, 'GET');
 });
 
 router.put('/', function(req, res) {
@@ -75,11 +76,11 @@ router.put('/', function(req, res) {
 });
 
 router.head('/', function(req, res) {
-  logRequest(req.headers, req.connection, 'HEAD'); 
+  logRequest(req, 'GET');
 });
 
 router.delete('/', function(req, res) {
-  logRequest(req.headers, req.connection, 'DELETE'); 
+  logRequest(req, 'GET');
 });
 
 
