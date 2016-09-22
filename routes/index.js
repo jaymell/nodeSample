@@ -32,6 +32,10 @@ var logRequest = function(headers, connection, type) {
   insertDoc(logEntry);
 };
 
+router.get('/test', function(req, res) {
+  res.send(200);
+});
+
 router.get('/*', function(req, res) {
 
 

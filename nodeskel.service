@@ -1,0 +1,13 @@
+[Unit]
+Description=nodeskel
+After=mongodb.service
+
+[Service]
+WorkingDirectory=/home/ubuntu/nodeSkel
+ExecStart=/usr/bin/nodejs ./app.js
+RestartSec=1s
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
