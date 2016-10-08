@@ -24,7 +24,6 @@ var logRequest = function(req, type) {
   var d = new Date();
   var logEntry = req.headers;
   var connection = req.connection;
-  logEntry.xforwardedFor = req.headers['x-forwarded-for'];
   logEntry.remoteAddress = connection.remoteAddress;
   logEntry.date = d.toISOString();
   logEntry.type = type;
