@@ -45,16 +45,20 @@ exports.staticFilePath = staticFilePath;
 exports.app = app;
 
 var PORT = config.port;
-var URL = config.mongoUrl;
-
+if (config.mongoUrl) {
+  var URL = null;
+}
+else {
+  var URL = config.mongoUrl;
+}
 console.log('Starting app');
 
-db.connect(URL, function(err) {
-    if(err) {
-        console.log('Unable to connect to Mongo.');
-        // process.exit(1);
-    } 
-});
-
+if (URL != null) {
+  db.connect(URL, function(err) {
+      if(err) {
+          console.log('Unable to connect to Mongo.');
+      } 
+  });
+}
 console.log('Listening on port ' + PORT);
 app.listen(PORT);
