@@ -77,12 +77,12 @@ router.get('/*', function(req, res) {
 
 router.post('/*', function(req, res) {
   logRequest(req, 'GET');
-  res.sendStatus(200);
+  res.sendStatus(403);
 });
 
 router.put('/*', function(req, res) {
   logRequest(req, 'PUT'); 
-  res.sendStatus(200);
+  res.sendStatus(403);
 });
 
 router.head('/*', function(req, res) {
@@ -92,7 +92,7 @@ router.head('/*', function(req, res) {
 
 router.delete('/*', function(req, res) {
   logRequest(req, 'GET');
-  res.sendStatus(200);
+  res.sendStatus(403);
 });
 
 
