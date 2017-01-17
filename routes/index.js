@@ -9,12 +9,12 @@ var insertDoc = function(doc) {
    var con = db.get()
    var col = config.collection;
    if ( con ) {
-	   db.get().collection(col).insertOne(doc, function(err, result) {
-		 if ( err ) {
-			console.log("cannot write to db -- insertion error");
-			throw err;
-		 } else {
-		   console.log("Inserted a record");
+     db.get().collection(col).insertOne(doc, function(err, result) {
+     if ( err ) {
+      console.log("cannot write to db -- insertion error");
+      throw err;
+     } else {
+       console.log("Inserted a record");
          }  
        });
    }
@@ -42,36 +42,36 @@ router.get('/test', function(req, res) {
 router.get('/*', function(req, res) {
 
 
-	// thanks to:
-	// http://stackoverflow.com/questions/10750303/how-can-i-get-the-local-ip-address-in-node-js
-	var interfaces = os.networkInterfaces();
-	var addresses = [];
-	for (var k in interfaces) {
-	    for (var k2 in interfaces[k]) {
-	        var address = interfaces[k][k2];
-	        if (address.family === 'IPv4' && !address.internal) {
-	            addresses.push(address.address);
-	        }
-	    }
-	}
+  // thanks to:
+  // http://stackoverflow.com/questions/10750303/how-can-i-get-the-local-ip-address-in-node-js
+  var interfaces = os.networkInterfaces();
+  var addresses = [];
+  for (var k in interfaces) {
+      for (var k2 in interfaces[k]) {
+          var address = interfaces[k][k2];
+          if (address.family === 'IPv4' && !address.internal) {
+              addresses.push(address.address);
+          }
+      }
+  }
 
-	logRequest(req, 'GET');
+  logRequest(req, 'GET');
 
-	var header = JSON.stringify(req.headers);
-	var remoteAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  var header = JSON.stringify(req.headers);
+  var remoteAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
     if ( config.hasOwnProperty('returnGreeting') && config.returnGreeting === true ) {
-		res.render('index', { 
-			title: 'Skel',
-    	    url: req.url,
-			remoteAddress: remoteAddress,
-			localAddress: addresses,
-			header: header
-		});
-	} 
+    res.render('index', { 
+      title: 'Skel',
+          url: req.url,
+      remoteAddress: remoteAddress,
+      localAddress: addresses,
+      header: header
+    });
+  } 
     else {
-		res.sendStatus(200);
-	}
+    res.sendStatus(200);
+  }
 
 });
 
