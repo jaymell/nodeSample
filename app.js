@@ -46,19 +46,23 @@ exports.app = app;
 
 var PORT = config.port;
 if (config.mongoUrl) {
-  var URL = null;
+  var URL = config.mongoUrl;
 }
 else {
-  var URL = config.mongoUrl;
+  var URL = null;
 }
 console.log('Starting app');
 
 if (URL != null) {
   db.connect(URL, function(err) {
-      if(err) {
-          console.log('Unable to connect to Mongo.');
-      } 
+    if(err) {
+      console.log('Unable to connect to Mongo.');
+      throw err;
+    } 
   });
+} else {
+  console.log('no db given, not connecting to one');
 }
+
 console.log('Listening on port ' + PORT);
 app.listen(PORT);

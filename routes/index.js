@@ -12,12 +12,15 @@ var insertDoc = function(doc) {
 	   db.get().collection(col).insertOne(doc, function(err, result) {
 		 if ( err ) {
 			console.log("cannot write to db -- insertion error");
-			console.log(err);
-		 }
-		 console.log("Inserted a record");
+			throw err;
+		 } else {
+		   console.log("Inserted a record");
+         }  
        });
    }
-   else console.log("cannot write to db");
+   else {
+     throw "error getting db connection object"
+   } 
 };
 
 var logRequest = function(req, type) {
@@ -33,7 +36,7 @@ var logRequest = function(req, type) {
 };
 
 router.get('/test', function(req, res) {
-  res.send(200);
+  res.sendStatus(200);
 });
 
 router.get('/*', function(req, res) {
@@ -57,29 +60,39 @@ router.get('/*', function(req, res) {
 	var header = JSON.stringify(req.headers);
 	var remoteAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
-	res.render('index', { 
-		title: 'Skel',
-        url: req.url,
-		remoteAddress: remoteAddress,
-		localAddress: addresses,
-		header: header
-	});
+    if ( config.hasOwnProperty('returnGreeting') && config.returnGreeting === true ) {
+		res.render('index', { 
+			title: 'Skel',
+    	    url: req.url,
+			remoteAddress: remoteAddress,
+			localAddress: addresses,
+			header: header
+		});
+	} 
+    else {
+		res.sendStatus(200);
+	}
+
 });
 
-router.post('/', function(req, res) {
+router.post('/*', function(req, res) {
   logRequest(req, 'GET');
+  res.sendStatus(200);
 });
 
-router.put('/', function(req, res) {
-  logRequest(req.headers, req.connection, 'PUT'); 
+router.put('/*', function(req, res) {
+  logRequest(req, 'PUT'); 
+  res.sendStatus(200);
 });
 
-router.head('/', function(req, res) {
+router.head('/*', function(req, res) {
   logRequest(req, 'GET');
+  res.sendStatus(200);
 });
 
-router.delete('/', function(req, res) {
+router.delete('/*', function(req, res) {
   logRequest(req, 'GET');
+  res.sendStatus(200);
 });
 
 

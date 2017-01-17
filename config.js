@@ -1,8 +1,9 @@
 var config = {}
 
-config.port = process.env.PORT || 8080;
-config.mongoUrl = process.env.MONGO_URL || null;
-config.collection = process.env.COLLECTION || null;
+config.port = process.env.PORT || 80;
+config.mongoUrl = process.env.MONGO_URL || "mongodb://localhost:27017/ipgeolocator";
+config.collection = process.env.COLLECTION || "ipgeolocator";
+config.friendly = false;
 
 module.exports = config;
 

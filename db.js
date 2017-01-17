@@ -7,14 +7,23 @@ var state = {
 	db: null,
 };
 
+function _connect(url, done) {
+  console.log('trying to connect to ' + url + '....');
+  MongoClient.connect(url, function(err, db) {
+    if (err) {
+      console.log('error invoking MongoClient.connect');
+      throw err;
+    }
+    state.db = db
+    done()
+  })
+}
+
 exports.connect = function(url, done) {
-	if (state.db) return done();
-	console.log('trying to connect to ' + url + '....');
-  	MongoClient.connect(url, function(err, db) {
-	    if (err) return null
-    	state.db = db
-    	done()
-  	})
+  if (state.db !== null) { 
+    return done();
+  }
+  return _connect(url, done);
 };
 
 exports.get = function() {
