@@ -60,7 +60,7 @@ router.get('/*', function(req, res) {
   var header = JSON.stringify(req.headers);
   var remoteAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
-    if ( config.hasOwnProperty('returnGreeting') && config.returnGreeting === true ) {
+    if ( config.hasOwnProperty('showGreeting') && config.showGreeting === true ) {
     res.render('index', { 
       title: 'Skel',
           url: req.url,

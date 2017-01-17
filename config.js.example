@@ -3,7 +3,9 @@ var config = {}
 config.port = process.env.PORT || 80;
 config.mongoUrl = process.env.MONGO_URL || "mongodb://localhost:27017/<My DB Name>";
 config.collection = process.env.COLLECTION || "<My Collection Name>" ;
+// return a greeting and request info on get requests:
 config.showGreeting = true;
+
 
 module.exports = config;
 
