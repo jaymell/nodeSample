@@ -76,7 +76,7 @@ router.get('/*', function(req, res) {
 });
 
 router.post('/*', function(req, res) {
-  logRequest(req, 'GET');
+  logRequest(req, 'POST');
   res.sendStatus(403);
 });
 
@@ -86,12 +86,12 @@ router.put('/*', function(req, res) {
 });
 
 router.head('/*', function(req, res) {
-  logRequest(req, 'GET');
+  logRequest(req, 'HEAD');
   res.sendStatus(200);
 });
 
 router.delete('/*', function(req, res) {
-  logRequest(req, 'GET');
+  logRequest(req, 'DELETE');
   res.sendStatus(403);
 });
 
