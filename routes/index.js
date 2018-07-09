@@ -15,12 +15,12 @@ var insertDoc = function(doc) {
       throw err;
      } else {
        console.log("Inserted a record");
-         }  
+         }
        });
    }
    else {
      throw "error getting db connection object"
-   } 
+   }
 };
 
 var logRequest = function(req, type) {
@@ -28,7 +28,7 @@ var logRequest = function(req, type) {
   var logEntry = req.headers;
   var connection = req.connection;
   logEntry.remoteAddress = connection.remoteAddress;
-  logEntry.date = d.toISOString();
+  logEntry.date = d;
   logEntry.type = type;
   logEntry.url = req.url;
   var colName = config.collection;
@@ -61,14 +61,14 @@ router.get('/*', function(req, res) {
   var remoteAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
     if ( config.hasOwnProperty('showGreeting') && config.showGreeting === true ) {
-    res.render('index', { 
+    res.render('index', {
       title: 'Skel',
           url: req.url,
       remoteAddress: remoteAddress,
       localAddress: addresses,
       header: header
     });
-  } 
+  }
     else {
     res.sendStatus(200);
   }
@@ -81,7 +81,7 @@ router.post('/*', function(req, res) {
 });
 
 router.put('/*', function(req, res) {
-  logRequest(req, 'PUT'); 
+  logRequest(req, 'PUT');
   res.sendStatus(403);
 });
 
